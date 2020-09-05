@@ -16,5 +16,8 @@ void Triangular_Inferior(vector<vector<double> > &L, vector<double> &b, vector<d
 void Eliminacion_Gaussiana(vector<vector<double> > &A, vector<double> &b, vector<double> &x);
 void Eliminacion_Gaussiana_Pivoteo(vector<vector<double> > &A, vector<double> &b, vector<double> &x);
 void Descomposicion_LU(vector<vector<double> > &A, vector<vector<double> > &L, vector<vector<double> > &U);
+void Descomposicion_LU_Pivot(vector<vector<double> > &A, vector<vector<double> > &L, vector<vector<double> > &U);
 void pivot(vector<vector<double> > &A, int k, vector<double> &b, vector<int> &index) ;
+void LU_pivot(vector<vector<double> > &A, int k) ;
+void Matrix_Mult(vector<vector<double>>&A, vector<vector<double>>&B, vector<vector<double>>&C);
 #endif

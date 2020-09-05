@@ -73,7 +73,7 @@ void Ejercicio6()
    ReadMatrix(A, "MatricesT02/M_SMALL.txt");
    L.assign((int)A.size(), vector<double> ((int)A[0].size(), 0.0));
    U.assign((int)A.size(), vector<double> ((int)A[0].size(), 0.0));
-   Descomposicion_LU(A, L, U); 
+   Descomposicion_LU_Pivot(A, L, U); 
    cout << "Lower:"<<endl;
    cout << L <<endl;
    cout << "Upper:"<<endl;

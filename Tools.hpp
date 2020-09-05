@@ -1,5 +1,7 @@
 #ifndef TOOLS_HPP
 #define TOOLS_HPP
+
+#include <iomanip>
 using namespace std;
 void ReadMatrix(vector<vector<double> > &M, string filename);
 void ReadVector(vector<double> &V, string filename);

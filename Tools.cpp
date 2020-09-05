@@ -73,7 +73,7 @@ ostream &operator<<(ostream &os, const vector< vector<double> > &M)
    {
       for(auto x:M[i])
       {
-	 os << x << " ";
+	 os << setw(12) << x << setw(12);
       }
       os <<endl;
    }
