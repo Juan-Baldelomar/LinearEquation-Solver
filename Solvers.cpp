@@ -174,6 +174,13 @@ void LU_Solve(vector<vector<double> > &A, vector<double>&b, vector<double>&x) {
 // Metodo para descomponer una matriz unicamente
 void Descomposicion_LU(vector<vector<double> > &A, vector<vector<double> > &L, vector<vector<double> > &U) {
     int n = A.size();
+    char answer;
+    cout << "MSG: DESEAS PIVOTEAR? responde: y/n" << endl;
+    cin >> answer;
+    
+    if (answer == 'y')
+        cout << "Se Pivoteara de ser necesario. WARNIGN: Las matrices L, U pueden cambiar de orden sus elementos. Sin embargo al utilizar ambas matrices "
+                "para resolver un sistema de ecuaciones las soluciones seran las mismas " <<endl;
 
     // inicializar posiciones de U
     for (int i = 0; i < n; i++) {
@@ -182,6 +189,8 @@ void Descomposicion_LU(vector<vector<double> > &A, vector<vector<double> > &L, v
 
     for (int k = 0; k < n; k++) {
         double acc; // variable que contiene la suma
+        if (answer == 'y')
+            LU_pivot(A, k);
 
         //l_ik 
         for (int i = k; i < n; i++) {
@@ -192,11 +201,7 @@ void Descomposicion_LU(vector<vector<double> > &A, vector<vector<double> > &L, v
             }
             L[i][k] = A[i][k] - acc;
         }
-
-        // verificar si es necesario pivotear
-        if (L[k][k] == 0)
-            LU_pivot(L, k);
-
+        
         //u_kj 
         for (int j = k + 1; j < n; j++) {
             acc = 0;
@@ -396,7 +401,7 @@ void Try_Sol(vector< vector<double > > &A, vector<double>&b, vector<double>&x) {
         for (int j = 0; j < n; j++) {
             acc += A[i][j] * x[j];
         }
-        cout << "valor b_" << i << ":" << setw(10) << b[i] << setw(5) << " Fila A_" << i << " * x:" << setw(10) << acc << endl;
+        cout << "valor b_" << i << ":" << setw(5) << b[i] << setw(15) << " Fila A_" << i << " * x:" << setw(5) << acc << endl;
     }
 }
 

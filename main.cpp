@@ -5,6 +5,7 @@ using namespace std;
 void Ejercicio1()
 {
    //1) Resolver una matriz Diagonal A
+    cout << endl;
     cout << "****************************************** RESOLVER MATRIZ DIAGONAL ******************************************" << endl;
     vector< vector<double> > D;
     vector<double> x, b;
@@ -20,6 +21,7 @@ void Ejercicio1()
 void Ejercicio2()
 {
    //2) Resolver una matriz triangula superior U
+    cout << endl;
     cout << "****************************************** RESOLVER MATRIZ TRIANGULAR SUPERIOR ******************************************" << endl;
     vector< vector<double> > U;
     vector<double> x, b;
@@ -30,8 +32,8 @@ void Ejercicio2()
     cout << "#####################################################  VECTOR SOLUCION ################################################### " << endl;
     cout << x <<endl; //imprimir en pantalla
     // prueba solucion
-    ReadMatrix(U, "MatricesT02/M_SMALL.txt");
-    ReadVector(b, "MatricesT02/V_SMALL.txt");
+    ReadMatrix(U, "MatricesT02/M_TSUP.txt");
+    ReadVector(b, "MatricesT02/V_TSUP.txt");
     Try_Sol(U, b, x);
     
     WriteVector(x, "out/Punto2_X_SMALL.txt");
@@ -39,6 +41,7 @@ void Ejercicio2()
 void Ejercicio3()
 {
    //3) Resolver una matriz triangula inferior L
+    cout << endl;
     cout << "****************************************** RESOLVER MATRIZ TRIANGULAR INFERIOR ******************************************" << endl;
     vector< vector<double> > L;
     vector<double> x, b;
@@ -49,16 +52,16 @@ void Ejercicio3()
     cout << "#####################################################  VECTOR SOLUCION ################################################### " << endl;
     cout << x <<endl;
     // prueba solucion
-    ReadMatrix(L, "MatricesT02/M_SMALL.txt");
-    ReadVector(b, "MatricesT02/V_SMALL.txt");
+    ReadMatrix(L, "MatricesT02/M_TINF.txt");
+    ReadVector(b, "MatricesT02/V_TINF.txt");
     Try_Sol(L, b, x);
     
     WriteVector(x, "out/Punto3_X_SMALL.txt");
 }
 void Ejercicio4()
 {
-
    //4) Eliminación Guassiana
+    cout << endl;
     cout << "****************************************** RESOLVER ELIMINACION GAUSSIANA ******************************************" << endl;
     vector< vector<double> > A;
     vector<double> x, b;
@@ -66,6 +69,9 @@ void Ejercicio4()
     ReadVector(b, "MatricesT02/V_SMALL.txt");
     x.assign((int)b.size(), 0.0);
     Eliminacion_Gaussiana(A, b, x);
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++++++ MATRIZ RESULTANTE +++++++++++++++++++++++++++++++++++++++++++++++++ " << endl;
+    cout << A << endl;
+    cout <<endl;
     cout << "##################################################  VECTOR SOLUCION ############################################### " << endl;
     cout << x <<endl;
     // prueba solucion
@@ -78,6 +84,7 @@ void Ejercicio4()
 void Ejercicio5()
 {
    //5) Eliminación Gaussiana con pivoteo (opcional)
+    cout << endl;
     cout << "****************************************** RESOLVER ELIMINACION GAUSSIANA PIVOTEO COMPLETO ******************************************" << endl;
     vector< vector<double> > A;
     vector<double> x, b;
@@ -85,6 +92,9 @@ void Ejercicio5()
     ReadVector(b, "MatricesT02/V_SMALL.txt");
     x.assign((int)b.size(), 0.0);
     Eliminacion_Gaussiana_Pivoteo(A, b, x);
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++++++ MATRIZ RESULTANTE +++++++++++++++++++++++++++++++++++++++++++++++++ " << endl;
+    cout << A << endl;
+    cout <<endl;
     cout << "########################################################  VECTOR SOLUCION ##################################################### " << endl;
     cout << x<<endl;
     //prueba solucion
@@ -97,6 +107,7 @@ void Ejercicio5()
 void Ejercicio6()
 {
    //6) Descomposición LU
+   cout << endl; 
    cout << "************************************************ FACTORIZACION LU **************************************************" << endl; 
    vector< vector<double> > A;
    vector<vector<double> > L, U;
@@ -104,7 +115,7 @@ void Ejercicio6()
    L.assign((int)A.size(), vector<double> ((int)A[0].size(), 0.0));
    U.assign((int)A.size(), vector<double> ((int)A[0].size(), 0.0));
    Descomposicion_LU(A, L, U); 
-   cout << " ---------------------------------------------- Lower: -------------------------------------------------------------"<<endl;
+   cout << "------------------------------------------------ Lower: -------------------------------------------------------------"<<endl;
    cout << L <<endl;
    cout << "------------------------------------------------ Upper: -------------------------------------------------------------"<<endl;
    cout << U <<endl;
@@ -115,18 +126,19 @@ void Ejercicio6()
 void Ejercicio7()
 {
    //4) Resolver SISTEMA con LU
+    cout << endl;
     cout << "****************************************** RESOLVER POR FACTORIZACION LU ******************************************" << endl;
     vector< vector<double> > A;
     vector<double> x, b;
-    ReadMatrix(A, "MatricesT02/M_LARGE.txt");
-    ReadVector(b, "MatricesT02/V_LARGE.txt");
+    ReadMatrix(A, "MatricesT02/M_SMALL.txt");
+    ReadVector(b, "MatricesT02/V_SMALL.txt");
     x.assign((int)b.size(), 0.0);
     LU_Solve(A,b,x);
     cout << "########################################################  VECTOR SOLUCION ##################################################### " << endl;
     cout << x <<endl;
     //prueba solucion
-    ReadMatrix(A, "MatricesT02/M_LARGE.txt");
-    ReadVector(b, "MatricesT02/V_LARGE.txt");
+    ReadMatrix(A, "MatricesT02/M_SMALL.txt");
+    ReadVector(b, "MatricesT02/V_SMALL.txt");
     Try_Sol(A, b, x);
     
     WriteVector(x, "out/Punto7_X_LARGE.txt");
@@ -141,15 +153,15 @@ int main()
   //2) Resolver una matriz triangula superior U
     //Ejercicio2();
   //3) Resolver una matriz triangula inferior L
-     //Ejercicio3();
+    //Ejercicio3();
   //4) Eliminación Guassiana
-     //Ejercicio4();
+    //Ejercicio4();
   //5) Eliminación Gaussiana con pivoteo (opcional)
-     //Ejercicio5();
+    //Ejercicio5();
   //6) Descomposición LU
-     //Ejercicio6();
+    //Ejercicio6();
   //7) Resolver por LU
-     //Ejercicio7();   
+    //Ejercicio7();   
    
 
   return 0;
