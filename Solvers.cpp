@@ -97,64 +97,12 @@ void Eliminacion_Gaussiana_Pivoteo(vector<vector<double> > &A, vector<double> &b
     
 }
 
-void Descomposicion_LU(vector<vector<double> > &A, vector<vector<double> > &L, vector<vector<double> > &U) {
-    int n = A.size();
-    for (int i = 0; i<n; i++){
-        for (int j =0; j<n; j++){
-            
-            double acc = 0;
-            if(j<=i){
-                for(int k = 0; k<j; k++){
-                    acc+= A[i][k]*A[k][j];   
-                }
-                
-                A[i][j] = A[i][j] - acc;
-                
-            }else{
-                for(int k = 0; k<i; k++){
-                    acc+= A[i][k]*A[k][j];   
-                }
-                A[i][j] = (A[i][j] - acc)/A[i][i];
-            }
-            
-        }
-    }
-    
-    // COPIA a MATRIZ L, U (No es necesario, pero para respetar la plantilla)
-    for (int i = 0; i<n; i++){
-        for (int j = 0; j<=i; j++){
-            L[i][j] = A[i][j];
-        }
-    }
-    
-    for (int i = 0; i<n; i++){
-        for (int j = i; j<n; j++){
-            if (i==j)
-                U[i][j] = 1;
-            else
-                U[i][j] = A[i][j];
-        }
-    }
-    
-    vector<vector<double>> C;
-    C.assign(n, vector<double>(n,0.0));
-    
-    Matrix_Mult(L, U, C);
-    cout << "MULT RES" <<endl;
-    cout << C<< endl;
-    
-    cout << A << endl;
-}
-
-
-void Descomposicion_LU_Pivot(vector<vector<double> > &A, vector<vector<double> > &L, vector<vector<double> > &U) {
+// LU Fact in same Matrix
+void Descomposicion_LU(vector<vector<double> > &A) {
     int n = A.size();
     
     for (int k = 0; k<n; k++){
-        double acc;
-        
-        //if (A[k][k]== 0)
-            LU_pivot(A,k);
+        double acc; // variable que contiene la suma
         
         //l_ik 
         for (int i = k; i <n; i++){
@@ -165,7 +113,6 @@ void Descomposicion_LU_Pivot(vector<vector<double> > &A, vector<vector<double> >
             }
             A[i][k] = A[i][k]- acc;   
         }
-        
         //u_kj 
         for (int j = k+1; j<n; j++){
             acc = 0;
@@ -175,21 +122,45 @@ void Descomposicion_LU_Pivot(vector<vector<double> > &A, vector<vector<double> >
             A[k][j] = (A[k][j]- acc)/A[k][k]; 
         }  
     }
-    // COPIA a MATRIZ L, U (No es necesario, pero para respetar la plantilla)
+}
+
+
+void Descomposicion_LU_Pivot(vector<vector<double> > &A, vector<vector<double> > &L, vector<vector<double> > &U) {
+    int n = A.size();
+    
+    // inicializar posiciones de U
     for (int i = 0; i<n; i++){
-        for (int j = 0; j<=i; j++){
-            L[i][j] = A[i][j];
-        }
+        U[i][i] = 1;
     }
     
-    for (int i = 0; i<n; i++){
-        for (int j = i; j<n; j++){
-            if (i==j)
-                U[i][j] = 1;
-            else
-                U[i][j] = A[i][j];
+    for (int k = 0; k<n; k++){
+        double acc; // variable que contiene la suma
+        
+        //l_ik 
+        for (int i = k; i <n; i++){
+            acc = 0;
+              
+            for (int r = 0 ; r <= k-1; r++){
+                acc += L[i][r]*U[r][k];
+            }
+            L[i][k] = A[i][k]- acc;   
         }
+        
+        // verificar si es necesario pivotear
+        if (L[k][k]== 0)
+            LU_pivot(L,k);
+        
+        //u_kj 
+        for (int j = k+1; j<n; j++){
+            acc = 0;
+            for (int r = 0 ; r <= k-1; r++){
+                acc += L[k][r]*U[r][j];
+            }
+            U[k][j] = (A[k][j]- acc)/L[k][k]; 
+        }  
     }
+    // COPIA a MATRIZ L, U (No es necesario, pero para respetar la plantilla)
+    
     
     vector<vector<double>> C;
     C.assign(n, vector<double>(n,0.0));
@@ -198,10 +169,24 @@ void Descomposicion_LU_Pivot(vector<vector<double> > &A, vector<vector<double> >
     cout << "MULT R" <<endl;
     cout << C<< endl;
     cout << " LU" << endl;
-    cout << A << endl;
+   // cout << A << endl;
 }
 
 
+void LU_Solve(vector<vector<double> > &A, vector<double> &b, vector<double> &x){
+    Descomposicion_LU(A);
+    int n = A.size();
+    Triangular_Inferior(A, b, x);
+    
+    //Transformar para volverla U
+    for (int i = 0; i<n; i++){
+        A[i][i] = 1;
+    }
+    
+    Triangular_Superior(A, x,x);
+    cout << "SOL" << endl;
+    cout << x << endl;
+}
 
 
 
@@ -298,6 +283,18 @@ void Matrix_Mult(vector< vector<double > > &A, vector<vector<double>>&B, vector<
             }
             C[i][j] = acc;
         }
+    }
+}
+
+void Try_Sol(vector< vector<double > > &A, vector<double>&b, vector<double>&x){
+    int n = A.size();
+    
+    for(int i = 0; i<n; i++){
+        double acc = 0;
+        for(int j = 0; j<n; j++){
+            acc+= A[i][j]*x[j];
+        }
+        cout << "b_" << i << ":" << setw(10)<< b[i] << setw(5) << " = " << setw(10) << acc << endl;
     }
 }
 

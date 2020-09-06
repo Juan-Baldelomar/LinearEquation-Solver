@@ -46,11 +46,14 @@ void Ejercicio4()
    //4) Eliminación Guassiana
     vector< vector<double> > A;
     vector<double> x, b;
-    ReadMatrix(A, "MatricesT02/M_LARGE.txt");
-    ReadVector(b, "MatricesT02/V_LARGE.txt");
+    ReadMatrix(A, "MatricesT02/M_SMALL_LU.txt");
+    ReadVector(b, "MatricesT02/V_SMALL.txt");
     x.assign((int)b.size(), 0.0);
-    Eliminacion_Gaussiana(A, b, x);
+    //Eliminacion_Gaussiana(A, b, x);
+    LU_Solve(A,b,x);
     cout << x<<endl;
+    ReadMatrix(A, "MatricesT02/M_SMALL_LU.txt");
+    Try_Sol(A, b, x);
     WriteVector(x, "out/Punto4_X_SMALL.txt");
 }
 void Ejercicio5()
@@ -70,10 +73,10 @@ void Ejercicio6()
    //6) Descomposición LU
    vector< vector<double> > A;
    vector<vector<double> > L, U;
-   ReadMatrix(A, "MatricesT02/M_SMALL.txt");
+   ReadMatrix(A, "MatricesT02/M_SMALL_LU.txt");
    L.assign((int)A.size(), vector<double> ((int)A[0].size(), 0.0));
    U.assign((int)A.size(), vector<double> ((int)A[0].size(), 0.0));
-   Descomposicion_LU_Pivot(A, L, U); 
+   //Descomposicion_LU_Pivot(A, L, U); 
    cout << "Lower:"<<endl;
    cout << L <<endl;
    cout << "Upper:"<<endl;
@@ -95,7 +98,7 @@ int main()
   //5) Eliminación Gaussiana con pivoteo (opcional)
      //Ejercicio5();
   //6) Descomposición LU
-     Ejercicio6();
+     Ejercicio4();
 
   return 0;
 }
