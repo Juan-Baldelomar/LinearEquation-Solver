@@ -2,9 +2,9 @@
 #include "Solvers.hpp"
 #include "Tools.hpp"
 
-void LU_Decomposition_pivot(vector<vector<double> > &A, int k);
+//sobrecarga metodos
+void LU_pivot(vector<vector<double> > &A, int k);
 void LU_pivot(vector<vector<double> > &A, int k, vector<double>&b, vector<int>&index) ;
-
 void Partial_pivot(vector<vector<double> >& A, int k, vector<double>& b);
 void pivot(vector<vector<double> > &A, int k, vector<double> &b, vector<int> &index) ;
 
@@ -109,7 +109,6 @@ void Eliminacion_Gaussiana_Pivoteo(vector<vector<double> > &A, vector<double> &b
 }
 
 // LU Fact in same Matrix used to solve Equation System
-
 void LU_Solve(vector<vector<double> > &A, vector<double>&b, vector<double>&x) {
     
     //variables necesarias
@@ -172,6 +171,7 @@ void LU_Solve(vector<vector<double> > &A, vector<double>&b, vector<double>&x) {
     }
 }
 
+// Metodo para descomponer una matriz unicamente
 void Descomposicion_LU(vector<vector<double> > &A, vector<vector<double> > &L, vector<vector<double> > &U) {
     int n = A.size();
 
@@ -195,7 +195,7 @@ void Descomposicion_LU(vector<vector<double> > &A, vector<vector<double> > &L, v
 
         // verificar si es necesario pivotear
         if (L[k][k] == 0)
-            LU_Decomposition_pivot(L, k);
+            LU_pivot(L, k);
 
         //u_kj 
         for (int j = k + 1; j < n; j++) {
@@ -289,7 +289,8 @@ void Partial_pivot(vector<vector<double> > &A, int k, vector<double> &b) {
     }
 }
 
-void LU_Decomposition_pivot(vector<vector<double> > &A, int k) {
+// Metodo para pivotear cuando se descompone una matriz en LU 
+void LU_pivot(vector<vector<double> > &A, int k) {
     int n = A.size();
     int i_max = k, j_max = k;
     double max = fabs(A[k][k]);
@@ -323,6 +324,7 @@ void LU_Decomposition_pivot(vector<vector<double> > &A, int k) {
     }
 }
 
+// Metodo para pivotear con LU_Solve. Es otro metodo aparte de LU_Decomposition_Pivot porque 
 void LU_pivot(vector<vector<double> > &A, int k, vector<double>&b, vector<int>&index) {
     int n = A.size();
     int i_max = k, j_max = k;
@@ -368,6 +370,7 @@ void LU_pivot(vector<vector<double> > &A, int k, vector<double>&b, vector<int>&i
     }
 }
 
+// multiplicacion de matrices
 void Matrix_Mult(vector< vector<double > > &A, vector<vector<double>>&B, vector<vector<double>>&C) {
     int n = A.size();
 
@@ -382,7 +385,10 @@ void Matrix_Mult(vector< vector<double > > &A, vector<vector<double>>&B, vector<
     }
 }
 
+
+// Metodo para probar que el vector solucion de la igualdad esperada 
 void Try_Sol(vector< vector<double > > &A, vector<double>&b, vector<double>&x) {
+    cout << "-------------------------------------------------- PRUEBA VECTOR SOLUCION -------------------------------------------------- " << endl;
     int n = A.size();
 
     for (int i = 0; i < n; i++) {
@@ -390,7 +396,7 @@ void Try_Sol(vector< vector<double > > &A, vector<double>&b, vector<double>&x) {
         for (int j = 0; j < n; j++) {
             acc += A[i][j] * x[j];
         }
-        cout << "b_" << i << ":" << setw(10) << b[i] << setw(5) << " = " << setw(10) << acc << endl;
+        cout << "valor b_" << i << ":" << setw(10) << b[i] << setw(5) << " Fila A_" << i << " * x:" << setw(10) << acc << endl;
     }
 }
 
