@@ -152,37 +152,27 @@ void Descomposicion_LU_Pivot(vector<vector<double> > &A, vector<vector<double> >
     
     for (int k = 0; k<n; k++){
         double acc;
-        LU_pivot(A,k);
-        for (int j = k; j<n; j++){
+        
+        //if (A[k][k]== 0)
+            LU_pivot(A,k);
+        
+        //l_ik 
+        for (int i = k; i <n; i++){
             acc = 0;
-            //multiplicar   
-            int km = 0;
-            while(km < k && km < j){
-                if(k==1)
-                    cout << endl;
-                acc += A[k][km]*A[km][j];
-                km++;
+              
+            for (int r = 0 ; r <= k-1; r++){
+                acc += A[i][r]*A[r][k];
             }
-            
-            if (j<=k)
-                A[k][j] = A[k][j]- acc;
-            else
-                A[k][j] = (A[k][j]- acc)/A[k][k];
-            
+            A[i][k] = A[i][k]- acc;   
         }
-        for (int i = k+1; i<n; i++){
+        
+        //u_kj 
+        for (int j = k+1; j<n; j++){
             acc = 0;
-            //multiplicar   
-            int km = 0;
-            while(km < k && km < i){
-                acc += A[i][km]*A[km][k];
-                km++;
+            for (int r = 0 ; r <= k-1; r++){
+                acc += A[k][r]*A[r][j];
             }
-            
-            if (k <=i)
-                A[i][k] = (A[i][k]- acc);
-            else
-                A[i][k] = (A[i][k]- acc)/A[i][i]; 
+            A[k][j] = (A[k][j]- acc)/A[k][k]; 
         }  
     }
     // COPIA a MATRIZ L, U (No es necesario, pero para respetar la plantilla)
