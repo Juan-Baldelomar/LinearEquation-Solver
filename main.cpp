@@ -11,7 +11,8 @@ void Ejercicio1()
     ReadVector(b, "MatricesT02/V_DIAG.txt");
     x.assign((int)b.size(), 0.0);
     Diagonal(D, b, x);
-    //cout.precision(2) << x <<endl; //imprimir en pantalla
+    cout.precision(2);
+    cout << x <<endl; //imprimir en pantalla
     WriteVector(x, "out/Punto1_X_SMALL.txt");
 
 }
@@ -46,13 +47,13 @@ void Ejercicio4()
    //4) Eliminación Guassiana
     vector< vector<double> > A;
     vector<double> x, b;
-    ReadMatrix(A, "MatricesT02/M_SMALL_LU.txt");
+    ReadMatrix(A, "MatricesT02/M_SMALL.txt");
     ReadVector(b, "MatricesT02/V_SMALL.txt");
     x.assign((int)b.size(), 0.0);
-    //Eliminacion_Gaussiana(A, b, x);
-    LU_Solve(A,b,x);
+    Eliminacion_Gaussiana(A, b, x);
     cout << x<<endl;
-    ReadMatrix(A, "MatricesT02/M_SMALL_LU.txt");
+    ReadMatrix(A, "MatricesT02/M_SMALL.txt");
+    ReadVector(b, "MatricesT02/V_SMALL.txt");
     Try_Sol(A, b, x);
     WriteVector(x, "out/Punto4_X_SMALL.txt");
 }
@@ -61,11 +62,12 @@ void Ejercicio5()
    //5) Eliminación Gaussiana con pivoteo (opcional)
     vector< vector<double> > A;
     vector<double> x, b;
-    ReadMatrix(A, "MatricesT02/M_LARGE.txt");
-    ReadVector(b, "MatricesT02/V_LARGE.txt");
+    ReadMatrix(A, "MatricesT02/M_SMALL.txt");
+    ReadVector(b, "MatricesT02/V_SMALL.txt");
     x.assign((int)b.size(), 0.0);
     Eliminacion_Gaussiana_Pivoteo(A, b, x);
     cout << x<<endl;
+    Try_Sol(A, b, x);
     WriteVector(x, "out/Punto5_X_SMALL.txt");
 }
 void Ejercicio6()
@@ -73,10 +75,10 @@ void Ejercicio6()
    //6) Descomposición LU
    vector< vector<double> > A;
    vector<vector<double> > L, U;
-   ReadMatrix(A, "MatricesT02/M_SMALL_LU.txt");
+   ReadMatrix(A, "MatricesT02/M_SMALL.txt");
    L.assign((int)A.size(), vector<double> ((int)A[0].size(), 0.0));
    U.assign((int)A.size(), vector<double> ((int)A[0].size(), 0.0));
-   //Descomposicion_LU_Pivot(A, L, U); 
+   Descomposicion_LU(A, L, U); 
    cout << "Lower:"<<endl;
    cout << L <<endl;
    cout << "Upper:"<<endl;
@@ -84,11 +86,30 @@ void Ejercicio6()
    WriteMatrix(L, "out/L_6_SMALL.txt");
    WriteMatrix(U, "out/U_6_SMALL.txt");
 }
+
+void Ejercicio7()
+{
+
+   //4) Resolver SISTEMA con LU
+    vector< vector<double> > A;
+    vector<double> x, b;
+    ReadMatrix(A, "MatricesT02/M_LARGE.txt");
+    ReadVector(b, "MatricesT02/V_LARGE.txt");
+    x.assign((int)b.size(), 0.0);
+    LU_Solve(A,b,x);
+    cout << x <<endl;
+    ReadMatrix(A, "MatricesT02/M_LARGE.txt");
+    ReadVector(b, "MatricesT02/V_LARGE.txt");
+    Try_Sol(A, b, x);
+    WriteVector(x, "out/Punto7_X_LARGE.txt");
+}
+
+
 int main()
 {
 
   //1) Resolver una matriz Diagonal A
-   // Ejercicio1();
+    //Ejercicio1();
   //2) Resolver una matriz triangula superior U
     //Ejercicio2();
   //3) Resolver una matriz triangula inferior L
@@ -98,7 +119,10 @@ int main()
   //5) Eliminación Gaussiana con pivoteo (opcional)
      //Ejercicio5();
   //6) Descomposición LU
-     Ejercicio4();
+     //Ejercicio6();
+  //7) Resolver por LU
+     //Ejercicio7();   
+   
 
   return 0;
 }
