@@ -4,16 +4,15 @@
 
 //sobrecarga metodos
 void LU_pivot(vector<vector<double> > &A, int k);
-void LU_pivot(vector<vector<double> > &A, int k, vector<double>&b, vector<int>&index) ;
+void LU_pivot(vector<vector<double> > &A, int k, vector<double>&b, vector<int>&index);
 void Partial_pivot(vector<vector<double> >& A, int k, vector<double>& b);
-void pivot(vector<vector<double> > &A, int k, vector<double> &b, vector<int> &index) ;
-
+void pivot(vector<vector<double> > &A, int k, vector<double> &b, vector<int> &index);
 
 void Diagonal(vector<vector<double> > &A, vector<double> &b, vector<double> &x) {
     int n = A.size();
     for (int i = 0; i < n; i++) {
         if (A[i][i] == 0)
-            cout << "WARNING: Elemento nulo en posicion [" << i << "][" << i << "]" << endl;
+            cout << "Diag WARNING: Elemento nulo en posicion [" << i << "][" << i << "]" << endl;
 
         x[i] = b[i] / A[i][i];
     }
@@ -29,6 +28,9 @@ void Triangular_Superior(vector<vector<double> > &U, vector<double> &b, vector<d
         for (int j = n - 1; j > i; j--) {
             acc += U[i][j] * x[j];
         }
+        if (U[i][i] == 0)
+            cout << "Triangular Sup  Msg WARNING: A_[" << i << ", " << i << "] es nulo, se dividira por 0" << endl;
+
         x[i] = (b[i] - acc) / U[i][i];
     }
 }
@@ -41,6 +43,8 @@ void Triangular_Inferior(vector<vector<double> > &L, vector<double> &b, vector<d
         for (int j = 0; j < i; j++) {
             acc += L[i][j] * x[j];
         }
+        if (L[i][i] == 0)
+            cout << "Triangular Inf  Msg WARNING: A_[" << i << ", " << i << "] es nulo, se dividira por 0" << endl;
         x[i] = (b[i] - acc) / L[i][i];
     }
 }
@@ -50,12 +54,12 @@ void Eliminacion_Gaussiana(vector<vector<double> > &A, vector<double> &b, vector
     int n = A.size();
     //indice k indica la fila con la cual estamos transformando a una Triangular Superior
     for (int k = 0; k < n - 1; k++) {
-        
+
         if (A[k][k] == 0)
-            Partial_pivot(A,k,b);
-        
-        if(A[k][k] == 0)
-            cout << "WARNING: Elemento nulo en posicion [" << k << "][" << k << "]" << endl;
+            Partial_pivot(A, k, b);
+
+        if (A[k][k] == 0)
+            cout << "GEM  Msg WARNING: A_[" << k << ", " << k << "] es nulo, se dividira por 0" << endl;
 
         for (int i = k + 1; i < n; i++) {
             double m_ik = A[i][k] / A[k][k];
@@ -85,6 +89,9 @@ void Eliminacion_Gaussiana_Pivoteo(vector<vector<double> > &A, vector<double> &b
     //indice k indica la fila con la cual estamos transformando a una Triangular Superior
     for (int k = 0; k < n - 1; k++) {
         pivot(A, k, b, index);
+        if (A[k][k] == 0)
+            cout << "GEM  Msg WARNING: A_[" << k << ", " << k << "] es nulo, se dividira por 0" << endl;
+
         for (int i = k + 1; i < n; i++) {
             double m_ik = A[i][k] / A[k][k];
             for (int j = k; j < n; j++) {
@@ -109,8 +116,9 @@ void Eliminacion_Gaussiana_Pivoteo(vector<vector<double> > &A, vector<double> &b
 }
 
 // LU Fact in same Matrix used to solve Equation System
+
 void LU_Solve(vector<vector<double> > &A, vector<double>&b, vector<double>&x) {
-    
+
     //variables necesarias
     int n = A.size();
     vector<int> index;
@@ -124,7 +132,7 @@ void LU_Solve(vector<vector<double> > &A, vector<double>&b, vector<double>&x) {
     for (int i = 0; i < n; i++) {
         index[i] = i;
     }
-    
+
     for (int k = 0; k < n; k++) {
         double acc; // variable que contiene la suma
 
@@ -139,16 +147,22 @@ void LU_Solve(vector<vector<double> > &A, vector<double>&b, vector<double>&x) {
             }
             A[i][k] = A[i][k] - acc;
         }
+
+        // verificar si se dividira por 0 y lanzar un warning
+        if (A[k][k] == 0)
+            cout << "LU Solve Msg WARNING: A_[" << k << ", " << k << "] es nulo, se dividira por 0" << endl;
+
         //u_kj 
         for (int j = k + 1; j < n; j++) {
             acc = 0;
             for (int r = 0; r <= k - 1; r++) {
                 acc += A[k][r] * A[r][j];
             }
+
             A[k][j] = (A[k][j] - acc) / A[k][k];
         }
     }
-    
+
     //RESOLVER SISTEMA
 
     Triangular_Inferior(A, b, x);
@@ -172,15 +186,18 @@ void LU_Solve(vector<vector<double> > &A, vector<double>&b, vector<double>&x) {
 }
 
 // Metodo para descomponer una matriz unicamente
+
 void Descomposicion_LU(vector<vector<double> > &A, vector<vector<double> > &L, vector<vector<double> > &U) {
     int n = A.size();
-    char answer;
-    cout << "MSG: DESEAS PIVOTEAR? responde: y/n" << endl;
-    cin >> answer;
     
-    if (answer == 'y')
-        cout << "Se Pivoteara de ser necesario. WARNIGN: Las matrices L, U pueden cambiar de orden sus elementos. Sin embargo al utilizar ambas matrices "
-                "para resolver un sistema de ecuaciones las soluciones seran las mismas " <<endl;
+    // Descomentar si se desea preguntar para pivotear
+    //    char answer;
+    //    cout << "MSG: DESEAS PIVOTEAR? responde: y/n" << endl;
+    //    cin >> answer;
+    //    
+    //    if (answer == 'y')
+    cout << "Se Pivoteara de ser necesario. WARNIGN: Las matrices L, U pueden cambiar de orden sus elementos. Sin embargo al utilizar ambas matrices "
+            "para resolver un sistema de ecuaciones las soluciones seran las mismas " << endl;
 
     // inicializar posiciones de U
     for (int i = 0; i < n; i++) {
@@ -189,8 +206,8 @@ void Descomposicion_LU(vector<vector<double> > &A, vector<vector<double> > &L, v
 
     for (int k = 0; k < n; k++) {
         double acc; // variable que contiene la suma
-        if (answer == 'y')
-            LU_pivot(A, k);
+        //        if (answer == 'y')
+        LU_pivot(A, k);
 
         //l_ik 
         for (int i = k; i < n; i++) {
@@ -201,7 +218,11 @@ void Descomposicion_LU(vector<vector<double> > &A, vector<vector<double> > &L, v
             }
             L[i][k] = A[i][k] - acc;
         }
-        
+
+        // verificar division por 0
+        if (L[k][k] == 0)
+            cout << "LU Decomposition  Msg WARNING: L_[" << k << ", " << k << "] es nulo, se dividira por 0" << endl;
+
         //u_kj 
         for (int j = k + 1; j < n; j++) {
             acc = 0;
@@ -273,7 +294,7 @@ void Partial_pivot(vector<vector<double> > &A, int k, vector<double> &b) {
     double max = fabs(A[k][k]);
 
     //find MAX
-    for (int i = k+1; i < n; i++) {
+    for (int i = k + 1; i < n; i++) {
         if (fabs(A[i][k]) > max) {
             i_max = i;
             max = fabs(A[i][k]);
@@ -295,6 +316,7 @@ void Partial_pivot(vector<vector<double> > &A, int k, vector<double> &b) {
 }
 
 // Metodo para pivotear cuando se descompone una matriz en LU 
+
 void LU_pivot(vector<vector<double> > &A, int k) {
     int n = A.size();
     int i_max = k, j_max = k;
@@ -330,6 +352,7 @@ void LU_pivot(vector<vector<double> > &A, int k) {
 }
 
 // Metodo para pivotear con LU_Solve. Es otro metodo aparte de LU_Decomposition_Pivot porque 
+
 void LU_pivot(vector<vector<double> > &A, int k, vector<double>&b, vector<int>&index) {
     int n = A.size();
     int i_max = k, j_max = k;
@@ -376,6 +399,7 @@ void LU_pivot(vector<vector<double> > &A, int k, vector<double>&b, vector<int>&i
 }
 
 // multiplicacion de matrices
+
 void Matrix_Mult(vector< vector<double > > &A, vector<vector<double>>&B, vector<vector<double>>&C) {
     int n = A.size();
 
@@ -392,6 +416,7 @@ void Matrix_Mult(vector< vector<double > > &A, vector<vector<double>>&B, vector<
 
 
 // Metodo para probar que el vector solucion de la igualdad esperada 
+
 void Try_Sol(vector< vector<double > > &A, vector<double>&b, vector<double>&x) {
     cout << "-------------------------------------------------- PRUEBA VECTOR SOLUCION -------------------------------------------------- " << endl;
     int n = A.size();

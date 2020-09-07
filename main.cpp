@@ -141,7 +141,7 @@ void Ejercicio7()
     ReadVector(b, "MatricesT02/V_SMALL.txt");
     Try_Sol(A, b, x);
     
-    WriteVector(x, "out/Punto7_X_LARGE.txt");
+    WriteVector(x, "out/Punto7_X_SMALL.txt");
 }
 
 
@@ -149,19 +149,19 @@ int main()
 {
 
   //1) Resolver una matriz Diagonal A
-    //Ejercicio1();
+    Ejercicio1();
   //2) Resolver una matriz triangula superior U
-    //Ejercicio2();
+    Ejercicio2();
   //3) Resolver una matriz triangula inferior L
-    //Ejercicio3();
+    Ejercicio3();
   //4) Eliminación Guassiana
-    //Ejercicio4();
+    Ejercicio4();
   //5) Eliminación Gaussiana con pivoteo (opcional)
-    //Ejercicio5();
+    Ejercicio5();
   //6) Descomposición LU
-    //Ejercicio6();
+    Ejercicio6();
   //7) Resolver por LU
-    //Ejercicio7();   
+    Ejercicio7();   
    
 
   return 0;
