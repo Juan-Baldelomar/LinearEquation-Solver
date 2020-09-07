@@ -432,3 +432,42 @@ void Try_Sol(vector< vector<double > > &A, vector<double>&b, vector<double>&x) {
 
 
 
+// EXTRA
+void Descomposicion_LU_Dolittle(vector<vector<double> > &A, vector<vector<double> > &L, vector<vector<double> > &U) {
+    int n = A.size();
+    // inicializar posiciones de U
+    for (int i = 0; i < n; i++) {
+        L[i][i] = 1;
+    }
+
+    for (int k = 0; k < n; k++) {
+        double acc; // variable que contiene la suma
+        //u_kj 
+        for (int j = k; j < n; j++) {
+            acc = 0;
+
+            for (int r = 0; r <= k - 1; r++) {
+                acc += L[k][r] * U[r][j];
+            }
+            U[k][j] = A[k][j] - acc;
+        }
+        
+        //l_ik 
+        for (int i = k + 1; i < n; i++) {
+            acc = 0;
+            for (int r = 0; r <= k - 1; r++) {
+                acc += L[i][r] * U[r][k];
+            }
+            L[i][k] = (A[i][k] - acc) / U[k][k];
+        }
+    }
+
+    //PRUEBA LU FUNCIONA
+    vector<vector<double>> C;
+    C.assign(n, vector<double>(n, 0.0));
+    Matrix_Mult(L, U, C);
+    cout << "MULT R" << endl;
+    cout << C << endl;
+}
+
+

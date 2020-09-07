@@ -17,6 +17,7 @@ void Eliminacion_Gaussiana(vector<vector<double> > &A, vector<double> &b, vector
 void Eliminacion_Gaussiana_Pivoteo(vector<vector<double> > &A, vector<double> &b, vector<double> &x);
 void LU_Solve(vector<vector<double> > &A, vector<double>&b, vector<double>&x);
 void Descomposicion_LU(vector<vector<double> > &A, vector<vector<double> > &L, vector<vector<double> > &U);
+void Descomposicion_LU_Dolittle(vector<vector<double> > &A, vector<vector<double> > &L, vector<vector<double> > &U);
 void LU_Solve(vector<vector<double> > &A, vector<double> &b, vector<double> &x);
 void Matrix_Mult(vector<vector<double>>&A, vector<vector<double>>&B, vector<vector<double>>&C);
 void Try_Sol(vector< vector<double > > &A, vector<double>&b, vector<double>&x);
